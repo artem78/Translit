@@ -1,0 +1,11 @@
+// General c++ files
+*.o
+*.exe
+*.out
+*.res
+
+// Dev C++ files
+*.layout
+
+// Custom
+/файлы/
