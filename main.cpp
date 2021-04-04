@@ -14,29 +14,66 @@ namespace fs = std::filesystem;
 void translit(const string& in, string& out);
 string getFileName(const string& filePath, bool withExtension = true, char seperator = '/');
 std::string cp1251_to_utf8(const char *str);
+void showHelp();
 
 int main(int argc, char** argv) {
 	//setlocale(LC_CTYPE, "rus");
 	setlocale(LC_ALL, "Russian");
 	
+	if (argc < 2)
+	{
+		showHelp();
+		return 0;
+	}
+	
+	bool isDryRun = false;
+	
 	for (int i = 1; i < argc; i++)
 	{
-		string fullpath = argv[i];
-		//cout << "fullpath=" << fullpath << endl;
-		string filename = /*fs::path(fullpath).filename().string()*/ getFileName(fullpath, true, '\\');
-		//cout << "old filename=" << filename << endl;
-		string newFilename = "";
-		translit(filename, newFilename);
-		cout << filename << " --> " << newFilename << endl;
+		string arg = argv[i];
 		
-		/*fullpath = cp1251_to_utf8(fullpath.c_str());
-		newFilename = cp1251_to_utf8(newFilename.c_str());*/
-		fs::rename(fullpath, newFilename);
+		if (arg == "--help")
+		{
+			showHelp();
+			break;
+		}
+		if (arg == "--dry-run")
+		{
+			isDryRun = true;
+		}
+		else
+		{
+			string fullpath = arg;
+			//cout << "fullpath=" << fullpath << endl;
+			string filename = /*fs::path(fullpath).filename().string()*/ getFileName(fullpath, true, '\\');
+			//cout << "old filename=" << filename << endl;
+			string newFilename = "";
+			translit(filename, newFilename);
+			cout << filename << " --> " << newFilename << endl;
+			
+			/*fullpath = cp1251_to_utf8(fullpath.c_str());
+			newFilename = cp1251_to_utf8(newFilename.c_str());*/
+			if (!isDryRun)
+				fs::rename(fullpath, newFilename);
+		}
 	}
 	
 	
 	//system("PAUSE");
 	return 0;
+}
+
+void showHelp()
+{
+	//string exeName = getFileName(argv[0], true, "\\");
+	const string exeName = "translit.exe";
+	
+	cout << "Usage: " << exeName << " [--help] [--dry-run] [FILENAME]..." << endl;
+	cout << endl;
+	cout << "Arguments:" << endl;
+	cout << "\t--help\t\t- Show this help" << endl;
+	cout << "\t--dry-run\t- Imitatate job without actual file renaming" << endl;
+	cout << "\tFILENAME\t- One or more files" << endl;
 }
 
 /*
