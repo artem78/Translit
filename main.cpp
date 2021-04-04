@@ -1,22 +1,18 @@
 ﻿#include <iostream>
 #include <string>
-#include <cctype>
 #include <filesystem>
 #include <clocale>
 #include <algorithm>
-//#include <wchar.h>
-#include <stringapiset.h>
+#include <cwctype>
 
 using namespace std;
 namespace fs = std::filesystem;
 
 
-void translit(const string& in, string& out);
-string getFileName(const string& filePath, bool withExtension = true, char seperator = '/');
-std::string cp1251_to_utf8(const char *str);
+void translit(const wstring& in, wstring& out);
 void showHelp();
 
-int main(int argc, char** argv) {
+int wmain(int argc, wchar_t** argv) {
 	//setlocale(LC_CTYPE, "rus");
 	setlocale(LC_ALL, "Russian");
 	
@@ -30,29 +26,27 @@ int main(int argc, char** argv) {
 	
 	for (int i = 1; i < argc; i++)
 	{
-		string arg = argv[i];
+		wstring arg = argv[i];
 		
-		if (arg == "--help")
+		if (arg == L"--help")
 		{
 			showHelp();
 			break;
 		}
-		if (arg == "--dry-run")
+		if (arg == L"--dry-run")
 		{
 			isDryRun = true;
 		}
 		else
 		{
-			string fullpath = arg;
-			//cout << "fullpath=" << fullpath << endl;
-			string filename = /*fs::path(fullpath).filename().string()*/ getFileName(fullpath, true, '\\');
-			//cout << "old filename=" << filename << endl;
-			string newFilename = "";
+			wstring fullpath = arg;
+			//wcout << L"fullpath=" << fullpath << endl;
+			wstring filename = fs::path(fullpath).filename().wstring();
+			//wcout << L"old filename=" << filename << endl;
+			wstring newFilename = L"";
 			translit(filename, newFilename);
-			cout << filename << " --> " << newFilename << endl;
+			wcout << filename << L" --> " << newFilename << endl;
 			
-			/*fullpath = cp1251_to_utf8(fullpath.c_str());
-			newFilename = cp1251_to_utf8(newFilename.c_str());*/
 			if (!isDryRun)
 				fs::rename(fullpath, newFilename);
 		}
@@ -66,181 +60,161 @@ int main(int argc, char** argv) {
 void showHelp()
 {
 	//string exeName = getFileName(argv[0], true, "\\");
-	const string exeName = "translit.exe";
+	const wstring exeName = L"translit.exe";
 	
-	cout << "Usage: " << exeName << " [--help] [--dry-run] [FILENAME]..." << endl;
-	cout << endl;
-	cout << "Arguments:" << endl;
-	cout << "\t--help\t\t- Show this help" << endl;
-	cout << "\t--dry-run\t- Imitatate job without actual file renaming" << endl;
-	cout << "\tFILENAME\t- One or more files" << endl;
+	wcout << L"Использование: " << exeName << L" [--help] [--dry-run] [FILENAME]..." << endl;
+	wcout << endl;
+	wcout << L"Параметры:" << endl;
+	wcout << L"\t--help\t\t- Показать справку" << endl;
+	wcout << L"\t--dry-run\t- Имитация переименования" << endl;
+	wcout << L"\tFILENAME\t- Имена одного или более файлов" << endl;
 }
 
-/*
- * Get File Name from a Path with or without extension
- */
-string getFileName(const string& filePath, bool withExtension, char separator)
+void translit(const wstring& in, wstring& out)
 {
-    // Get last dot position
-    std::size_t dotPos = filePath.rfind('.');
-    std::size_t sepPos = filePath.rfind(separator);
-    if(sepPos != std::string::npos)
-    {
-        return filePath.substr(sepPos + 1, filePath.size() - (withExtension || dotPos != std::string::npos ? 1 : dotPos) );
-    }
-    return "";
-}
-
-void translit(const string& in, string& out)
-{
-	out = "";
+	out = L"";
 	
 	for (int i = 0; i < in.length(); i++)
 	{
-		unsigned char oldChar = in[i];
-		unsigned char lowerOldChar = tolower(in[i]);
+		/*unsigned*/ wchar_t oldChar = in[i];
+		/*unsigned*/ wchar_t lowerOldChar = towlower(oldChar);
 		//cout << "char=" << oldChar << " lower=" << lowerOldChar << endl;
-		string newChar;
+		wstring newChar;
 		
 		//cout << "lower=" << (char)(tolower(in[i])) << endl;
 		
 		switch (lowerOldChar)
 		{
-			case /*'а'*/ 224:
-				newChar = "a";
+			case L'а':
+				newChar = L"a";
 				break;
 				
-			case /*'б'*/ 225:
-				newChar = "b";
-				break;
-					
-			case /*'в'*/ 226:
-				newChar = "v";
+			case L'б':
+				newChar = L"b";
 				break;
 					
-			case /*'г'*/ 227:
-				newChar = "g";
+			case L'в':
+				newChar = L"v";
+				break;
+					
+			case L'г':
+				newChar = L"g";
 				break;
 				
-			case /*'д'*/ 228:
-				newChar = "d";
+			case L'д':
+				newChar = L"d";
 				break;
 				
-				
-			case /*'е'*/ 229:
-				newChar = "e";
+			case L'е':
+				newChar = L"e";
 				break;
 				
-				
-			case /*'ё'*/ 184:
-				newChar = "yo"; // e
+			case L'ё':
+				newChar = L"yo"; // e
 				break;
 				
-				
-			case /*'ж'*/ 230:
-				newChar = "zh"; // j
+			case L'ж':
+				newChar = L"zh"; // j
 				break;
 				
-				
-			case /*'з'*/ 231:
-				newChar = "z";
+			case L'з':
+				newChar = L"z";
 				break;
 				
-				
-			case /*'и'*/ 232:
-				newChar = "i";
+			case L'и':
+				newChar = L"i";
 				break;
 				
-			case /*'й'*/ 233:
-				newChar = "y"; // y/j
+			case L'й':
+				newChar = L"y"; // y/j
 				break;
 				
-			case /*'к'*/ 234:
-				newChar = "k";
-				break;
-			
-			case /*'л'*/ 235:
-				newChar = "l";
-				break;
-				
-			case /*'м'*/ 236:
-				newChar = "m";
+			case L'к':
+				newChar = L"k";
 				break;
 			
-			case /*'н'*/ 237:
-				newChar = "n";
+			case L'л':
+				newChar = L"l";
 				break;
 				
-			case /*'о'*/ 238:
-				newChar = "o";
+			case L'м':
+				newChar = L"m";
+				break;
+			
+			case L'н':
+				newChar = L"n";
+				break;
+				
+			case L'о':
+				newChar = L"o";
 				break;
 						
-			case /*'п'*/ 239:
-				newChar = "p";
+			case L'п':
+				newChar = L"p";
 				break;
 							
-			case /*'р'*/ 240:
-				newChar = "r";
+			case L'р':
+				newChar = L"r";
 				break;
 					
-			case /*'с'*/ 241:
-				newChar = "s";
+			case L'с':
+				newChar = L"s";
 				break;
 						
-			case /*'т'*/ 242:
-				newChar = "t";
+			case L'т':
+				newChar = L"t";
 				break;
 				
-			case /*'у'*/ 243:
-				newChar = "u";
+			case L'у':
+				newChar = L"u";
 				break;
 				
-			case /*'ф'*/ 244:
-				newChar = "f";
+			case L'ф':
+				newChar = L"f";
 				break;
 				
-			case /*'х'*/ 245:
-				newChar = "h";
+			case L'х':
+				newChar = L"h";
 				break;
 				
-			case /*'ц'*/ 246:
-				newChar = "ts"; // ts/c
+			case L'ц':
+				newChar = L"ts"; // ts/c
 				break;
 				
-			case /*'ч'*/ 247:
-				newChar = "ch";
+			case L'ч':
+				newChar = L"ch";
 				break;
 				
-			case /*'ш'*/ 248:
-				newChar = "sh";
+			case L'ш':
+				newChar = L"sh";
 				break;
 				
-			case /*'щ'*/ 249:
-				newChar = "sch";
+			case L'щ':
+				newChar = L"sch";
 				break;
 				
-			case /*'Ъ'*/ 250:
-				newChar = ""; // пропускаем
+			case L'Ъ':
+				newChar = L""; // пропускаем
 				break;
 				
-			case /*'ы'*/ 251:
-				newChar = "y"; // y/i
+			case L'ы':
+				newChar = L"y"; // y/i
 				break;
 				
-			case /*'ь'*/ 252:
-				newChar = ""; // пропускаем
+			case L'ь':
+				newChar = L""; // пропускаем
 				break;
 				
-			case /*'э'*/ 253:
-				newChar = "e"; // e/eh
+			case L'э':
+				newChar = L"e"; // e/eh
 				break;
 				
-			case /*'ю'*/ 254:
-				newChar = "yu";
+			case L'ю':
+				newChar = L"yu";
 				break;
 				
-			case /*'я'*/ 255:
-				newChar = "ya";
+			case L'я':
+				newChar = L"ya";
 				break;
 				
 			default:
@@ -250,40 +224,10 @@ void translit(const string& in, string& out)
 				
 		}
 		
-		if (isupper(oldChar))
-			transform(newChar.begin(), newChar.end(),newChar.begin(), ::toupper); // to upper
+		if (iswupper(oldChar))
+			transform(newChar.begin(), newChar.end(),newChar.begin(), towupper); // to upper
 					
 		out += newChar;
 		
 	}
-}
-
-std::string cp1251_to_utf8(const char *str)
-{
-    std::string res;
-    /*WCHAR*/ wchar_t *ures = NULL;
-    char *cres = NULL;
- 
-    int result_u = MultiByteToWideChar(1251, 0, str, -1, 0, 0);
-    if (result_u != 0)
-    {
-        ures = new WCHAR[result_u];
-        if (MultiByteToWideChar(1251, 0, str, -1, ures, result_u))
-        {
-            int result_c = WideCharToMultiByte(CP_UTF8, 0, ures, -1, 0, 0, 0, 0);
-            if (result_c != 0)
-            {
-                cres = new char[result_c];
-                if (WideCharToMultiByte(CP_UTF8, 0, ures, -1, cres, result_c, 0, 0))
-                {
-                    res = cres;
-                }
-            }
-        }
-    }
- 
-    delete[] ures;
-    delete[] cres;
- 
-    return res;
 }
