@@ -34,19 +34,19 @@ UnitCount=1
 [VersionInfo]
 Major=1
 Minor=0
-Release=0
-Build=92
+Release=1
+Build=102
 LanguageID=1033
 CharsetID=1252
 CompanyName=
-FileVersion=1.0.0.92
+FileVersion=1.0.1.102
 FileDescription=Developed using the Dev-C++ IDE
 InternalName=
 LegalCopyright=
 LegalTrademarks=
 OriginalFilename=
 ProductName=
-ProductVersion=1.0.0.92
+ProductVersion=1.0.1.102
 AutoIncBuildNr=1
 SyncProduct=1
 
