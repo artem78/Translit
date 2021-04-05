@@ -48,7 +48,17 @@ int wmain(int argc, wchar_t** argv) {
 			wcout << filename << L" --> " << newFilename << endl;
 			
 			if (!isDryRun)
-				fs::rename(fullpath, newFilename);
+			{
+				try
+				{
+					fs::rename(fullpath, newFilename);
+				}
+				catch (const exception& error)
+				{
+					/*wcout*/ wcerr << L"!!! Ошибка обработки файла \"" << fullpath << "\":" << endl;
+					/*wcout*/ wcerr << "" << error.what() << endl;
+				}
+			}
 		}
 	}
 	
