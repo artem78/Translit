@@ -39,24 +39,23 @@ int wmain(int argc, wchar_t** argv) {
 		}
 		else
 		{
-			wstring oldFullpath = arg;
-			//wcout << L"fullpath=" << fullpath << endl;
-			wstring oldFilename = fs::path(oldFullpath).filename().wstring();
-			//wcout << L"old filename=" << filename << endl;
-			wstring newFilename = L"";
+			fs::path oldPath(arg);
+			wstring oldFilename = oldPath.filename().wstring();
+			wstring newFilename;
 			translit(oldFilename, newFilename);
 			wcout << oldFilename << L" --> " << newFilename << endl;
-			wstring newFullpath = fs::path(oldFullpath).replace_filename(newFilename);	
+			fs::path newPath(oldPath);
+			newPath.replace_filename(newFilename);
 			
 			if (!isDryRun)
 			{
 				try
 				{
-					fs::rename(oldFullpath, newFullpath);
+					fs::rename(oldPath, newPath);
 				}
 				catch (const exception& error)
 				{
-					/*wcout*/ wcerr << L"!!! Ошибка обработки файла \"" << oldFullpath << "\":" << endl;
+					/*wcout*/ wcerr << L"!!! Ошибка обработки файла \"" << oldPath.wstring() << "\":" << endl;
 					/*wcout*/ wcerr << "" << error.what() << endl;
 				}
 			}
