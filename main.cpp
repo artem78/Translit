@@ -235,7 +235,11 @@ void translit(const wstring& in, wstring& out)
 		}
 		
 		if (iswupper(oldChar))
-			transform(newChar.begin(), newChar.end(),newChar.begin(), towupper); // to upper
+		{
+			//transform(newChar.begin(), newChar.end(),newChar.begin(), towupper); // to upper
+			if (newChar.length() >= 1)
+				newChar[0] = towupper(newChar[0]); // Capitalize
+		}
 					
 		out += newChar;
 		
