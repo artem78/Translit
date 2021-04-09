@@ -203,7 +203,7 @@ void translit(const wstring& in, wstring& out)
 				newChar = L"sch";
 				break;
 				
-			case L'Ъ':
+			case L'ъ':
 				newChar = L""; // пропускаем
 				break;
 				
