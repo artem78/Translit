@@ -89,9 +89,7 @@ void translit(const wstring& in, wstring& out)
 		/*unsigned*/ wchar_t oldChar = in[i];
 		/*unsigned*/ wchar_t lowerOldChar = towlower(oldChar);
 		//cout << "char=" << oldChar << " lower=" << lowerOldChar << endl;
-		wstring newChar;
-		
-		//cout << "lower=" << (char)(tolower(in[i])) << endl;
+		wstring newChar = L"";
 		
 		switch (lowerOldChar)
 		{
@@ -229,9 +227,8 @@ void translit(const wstring& in, wstring& out)
 				
 			default:
 				// Остальные символы оставляем как есть
-				newChar = in[i];
+				newChar = oldChar;
 				break;
-				
 		}
 		
 		if (iswupper(oldChar))
@@ -242,6 +239,5 @@ void translit(const wstring& in, wstring& out)
 		}
 					
 		out += newChar;
-		
 	}
 }
