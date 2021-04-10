@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Translit"
-#define MyAppVersion "1.0.1.109"
+#define MyAppVersion "1.0.2.140"
 #define MyAppPublisher "artem78"
 #define MyAppURL "https://github.com/artem78/Translit"
 #define MyAppExeName "Translit.exe"
@@ -26,7 +26,7 @@ DefaultDirName={pf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 DisableProgramGroupPage=yes
 OutputDir=build\installer
-OutputBaseFilename=Translit setup
+OutputBaseFilename=Translit Setup
 SetupIconFile=Translit.ico
 Compression=lzma
 SolidCompression=yes

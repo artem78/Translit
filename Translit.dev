@@ -27,26 +27,26 @@ CommandLine=--dry-run "c:\ÌÎÉ פאיכ.txt" "d:\dir\פאיכ םמלונ 2.txt" "e:\Øר.txt" "c
 Folders=
 IncludeVersionInfo=1
 SupportXPThemes=0
-CompilerSet=4
-CompilerSettings=0;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;1;0;0;0;0;0;0;0
+CompilerSet=3
+CompilerSettings=0;0;0;0;0;0;0;1;0;0;0;0;0;0;0;0;0;0;0;0;0;0;4;0;0;0
 UnitCount=1
 
 [VersionInfo]
 Major=1
 Minor=0
-Release=1
-Build=109
+Release=2
+Build=140
 LanguageID=1033
 CharsetID=1252
 CompanyName=
-FileVersion=1.0.1.109
+FileVersion=1.0.2.140
 FileDescription=Developed using the Dev-C++ IDE
 InternalName=
 LegalCopyright=
 LegalTrademarks=
 OriginalFilename=
 ProductName=
-ProductVersion=1.0.1.109
+ProductVersion=1.0.2.140
 AutoIncBuildNr=1
 SyncProduct=1
 
