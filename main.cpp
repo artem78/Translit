@@ -72,12 +72,27 @@ void showHelp()
 	//string exeName = getFileName(argv[0], true, "\\");
 	const wstring exeName = L"translit.exe";
 	
-	wcout << L"Использование: " << exeName << L" [--help] [--dry-run] [FILENAME]..." << endl;
+	wcout << L"Замена русских букв в именах файлов на английские (транслитерация)." << endl;
 	wcout << endl;
-	wcout << L"Параметры:" << endl;
-	wcout << L"\t--help\t\t- Показать справку" << endl;
-	wcout << L"\t--dry-run\t- Имитация переименования" << endl;
+	
+	wcout << L"Использование:" << endl;
+	wcout << L'\t' << exeName << L" [--help] [--dry-run] [FILENAME]..." << endl;
+	wcout << endl;
+	
+	wcout << L"Ключи:" << endl;
+	wcout << L"\t--help\t\t- Показать эту справку" << endl;
+	wcout << L"\t--dry-run\t- Имитация работы без реального переименования" << endl;
 	wcout << L"\tFILENAME\t- Имена одного или более файлов" << endl;
+	wcout << endl;
+	
+	wcout << L"Пример:" << endl;
+	wcout << L'\t' << exeName << L" \"c:\\мой рисунок.bmp\" \"d:\\мой документ.docx\"" << endl;
+	wcout << L"\tмой рисунок.bmp --> moy risunok.bmp" << endl;
+	wcout << L"\tмой документ.docx --> moy dokument.docx" << endl;
+	wcout << endl;
+	
+	wcout << L"Автор:" << endl;
+	wcout << L"\tartem78 <megabyte1024@ya.ru>" << endl;
 }
 
 void translit(const wstring& in, wstring& out)
